@@ -105,3 +105,14 @@ TEST(TStack, can_assign_stacks_of_different_size)
 	s2 = s1;
 	EXPECT_EQ(s1, s2);
 }
+
+TEST(TStack, can_load_stack)
+{
+	TStack<int> s1(3), s2(3);
+	s1.Push(1);
+	s1.Push(2);
+	s2 = s1.LoadStack();
+	s2 = s2.LoadStack();
+	EXPECT_EQ(s1, s2);
+}
+
