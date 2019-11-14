@@ -1,4 +1,4 @@
-﻿#ifndef __TSTACK_H__
+#ifndef __TSTACK_H__
 #define __TSTACK_H__
 
 #include <iostream>
@@ -23,18 +23,17 @@ public:
 	bool IsEmpty();            // узнать, пустой ли стек
 	bool IsFull();             // узнать, полон ли стек
 	void Clear();              // очистить стек
-//	ValType Top();             // верхний элемент стека
-//	ValType Bottom();          // нижний элемент стека
 	void Push(ValType elem);   // добавить элемент в стек
 	void Pop();                // удалить элемент из стека
 	TStack LoadStack();        // перенос элементов
-
+	bool operator==(const TStack &s) const;
+	bool operator!=(const TStack &s) const;
 };
 
 template <class ValType>
 TStack<ValType>::TStack(int s)  // конструктор с параметром
 {
-	if ((s < 0) || (s > MAX_STACK_SIZE) throw "Error";
+	if ((s < 0) || (s > MAX_STACK_SIZE)) throw "Error";
 	TopElem = -1;
 	Size = s;
 	pStack = new ValType[Size];
@@ -71,6 +70,29 @@ TStack<ValType>& TStack<ValType>::operator=(const TStack &s) //присваив�
 	return *this;
 }
 
+template <class ValType> // сравнение
+bool TStack<ValType>::operator==(const TStack &s) const
+{
+	bool flag = true;
+	if ((Size != s.Size) || (TopElem != s.TopElem)) return false;
+	for (int i = 0; i <= TopElem; i++)
+	{
+		if (pStack[i] != s.pStack[i])
+		{
+			flag = false;
+			break;
+		}
+	}
+	return flag;
+} 
+
+template <class ValType> // сравнение
+bool TStack<ValType>::operator!=(const TStack &s) const
+{
+	if (s == *this) return false;
+	return true;
+}
+
 template <class ValType> // узнать, пустой ли стек
 bool TStack<ValType>::IsEmpty()
 {
@@ -88,7 +110,7 @@ bool TStack<ValType>::IsFull()
 template <class ValType>
 void TStack<ValType>::Clear() // очистить стек
 {
-	TopElem = 0;
+	TopElem = -1;
 }
 
 template <class ValType> // добавить элемент в стек
@@ -112,53 +134,11 @@ template <class ValType>
 TStack<ValType> TStack<ValType>::LoadStack()  // перенос элементов
 {
 	TStack temp(Size);
+	temp.TopElem = TopElem;
 	for (int i = 0; i <= TopElem; i++)
 		temp.pStack[i] = pStack[TopElem - i];
 	return temp;
 }
 
 
-//----------------------------------------------------------------------------------------
-
-//ОЧЕРЕДЬ
-/*
-template <class ValType>
-class TQueue :public TStack<ValType>
-{
-	TStack<ValType> In, Out;
-public:
-	TQueue();
-	~TQueue();
-	void Pop();
-	void Push(ValType elem);
-};
-
-template <class ValType>
-TQueue<ValType>::TQueue()
-{
-}
-
-template <class ValType>
-TQueue<ValType>::~TQueue()
-{
-}
-
-template <class ValType>
-void TQueue<ValType>::Pop()
-{
-	if (!In.IsEmpty())
-		Out = In.LoadStack();
-	Out.Pop();
-	TStack<ValType> temp(In.GetSize());
-	In = temp;
-}
-
-template <class ValType>
-void TQueue<ValType>::Push(ValType elem)
-{
-	if (!Out.IsEmpty())
-		In = Out.LoadStack();
-	In.Push(elem);
-}
-*/
 #endif
