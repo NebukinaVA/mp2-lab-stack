@@ -13,13 +13,13 @@ TEST(TQueue, can_push)
 	ASSERT_NO_THROW(q.Push(1));
 }
 
-TEST(TQueue, throws_when_push_into_full_queue)
+TEST(TQueue, no_throw_when_push_into_full_queue)
 {
 	TQueue<int> q(3);
 	q.Push(1);
 	q.Push(2);
 	q.Push(3);
-	ASSERT_ANY_THROW(q.Push(4));
+	ASSERT_NO_THROW(q.Push(4));
 }
 
 TEST(TQueue, can_pop)

@@ -36,7 +36,7 @@ TQueue<ValType>::~TQueue()
 template <class ValType>
 void TQueue<ValType>::Pop()
 {
-	if (!In.IsEmpty())
+	if (Out.IsEmpty())
 		Out = In.LoadStack();
 	Out.Pop();
 	In.Clear();
@@ -45,8 +45,6 @@ void TQueue<ValType>::Pop()
 template <class ValType>
 void TQueue<ValType>::Push(ValType elem)
 {
-	if (!Out.IsEmpty())
-		In = Out.LoadStack();
 	In.Push(elem);
 	Out.Clear();
 }
