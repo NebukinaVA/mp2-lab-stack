@@ -6,7 +6,7 @@
 
 using namespace std;
 
-// Î×ÅÐÅÄÜ
+// ОЧЕРЕДЬ
 template <class ValType>
 class TQueue :public TStack<ValType>
 {
@@ -14,10 +14,10 @@ class TQueue :public TStack<ValType>
 public:
 	TQueue(int s = 6);
 	~TQueue();
-	void Pop();                         // óáðàòü ýëåìåíò
-	void Push(ValType elem);            // äîáàâèòü ýëåìåíò 
-	bool operator==(const TQueue &q);   // ñðàâíåíèå
-	bool operator!=(const TQueue &q);   // ñðàâíåíèå
+	void Pop();                         // убрать элемент
+	void Push(ValType elem);            // добавить элемент 
+	bool operator==(const TQueue &q);   // сравнение
+	bool operator!=(const TQueue &q);   // сравнение
 };
 
 template <class ValType>
@@ -36,7 +36,7 @@ TQueue<ValType>::~TQueue()
 template <class ValType>
 void TQueue<ValType>::Pop()
 {
-	if (!In.IsEmpty())
+	if (Out.IsEmpty())
 		Out = In.LoadStack();
 	Out.Pop();
 	In.Clear();
@@ -45,14 +45,12 @@ void TQueue<ValType>::Pop()
 template <class ValType>
 void TQueue<ValType>::Push(ValType elem)
 {
-	if (!Out.IsEmpty())
-		In = Out.LoadStack();
 	In.Push(elem);
 	Out.Clear();
 }
 
 template <class ValType>
-bool TQueue<ValType>::operator==(const TQueue &q) //ñðàâíåíèå
+bool TQueue<ValType>::operator==(const TQueue &q) //сравнение
 {
 	if ((!q.In.IsEmpty()) && (!In.IsEmpty()))
 		if (In == q.In) return true;
@@ -62,7 +60,7 @@ bool TQueue<ValType>::operator==(const TQueue &q) //ñðàâíåíèå
 }
 
 template <class ValType>
-bool TQueue<ValType>::operator!=(const TQueue &q) //ñðàâíåíèå
+bool TQueue<ValType>::operator!=(const TQueue &q) //сравнение
 {
 	if (q == *this) return false;
 	return true;
