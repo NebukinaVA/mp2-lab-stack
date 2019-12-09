@@ -8,9 +8,10 @@ using namespace std;
 
 // ОЧЕРЕДЬ
 template <class ValType>
-class TQueue :public TStack<ValType>
+class TQueue : public TStack<ValType>
 {
 	TStack<ValType> In, Out;
+	int InBot;       //индекс нижнего элемента стека In
 public:
 	TQueue(int s = 6);
 	~TQueue();
@@ -18,6 +19,7 @@ public:
 	void Push(ValType elem);            // добавить элемент 
 	bool operator==(const TQueue &q);   // сравнение
 	bool operator!=(const TQueue &q);   // сравнение
+	ValType operator[](int pos);
 };
 
 template <class ValType>
@@ -26,6 +28,7 @@ TQueue<ValType>::TQueue(int s)
 	TStack <ValType> temp(s);
 	In = temp;
 	Out = temp;
+	InBot = 0;
 }
 
 template <class ValType>
@@ -37,9 +40,12 @@ template <class ValType>
 void TQueue<ValType>::Pop()
 {
 	if (Out.IsEmpty())
+	{
 		Out = In.LoadStack();
+		Out.ChangeTopElem(-InBot);
+	}
 	Out.Pop();
-	In.Clear();
+	InBot++;
 }
 
 template <class ValType>
@@ -65,5 +71,13 @@ bool TQueue<ValType>::operator!=(const TQueue &q) //сравнение
 	if (q == *this) return false;
 	return true;
 }
+
+template <class ValType>
+ValType TQueue<ValType>::operator[](int pos)
+{
+	if (Out.IsEmpty()) return In[pos + InBot];
+	return Out[pos];
+}
+
 
 #endif
