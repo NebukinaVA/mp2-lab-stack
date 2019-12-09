@@ -35,3 +35,47 @@ TEST(TQueue, throws_when_pop_from_empty_stack)
 	ASSERT_ANY_THROW(q.Pop());
 }
 
+TEST(TQueue, no_throw_when_many_pushes_and_pops)
+{
+	TQueue<int> q(5);
+	q.Push(1);
+	q.Push(2);
+	q.Push(3);
+	q.Push(4);
+	q.Push(5);
+	q.Pop();
+	q.Push(6);
+	ASSERT_NO_THROW(q.Pop());
+}
+
+TEST(TQueue, works_correctly)
+{
+	TQueue<int> q(5);
+	q.Push(1);
+	q.Push(2);
+	q.Push(3);
+	q.Push(4);
+	q.Push(5);
+	q.Pop();
+	q.Push(6);
+	EXPECT_EQ(6, q[4]);
+}
+
+TEST(TQueue, throws_when_wrong_position)
+{
+	TQueue<int> q(5);
+	q.Push(1);
+	q.Push(2);
+	q.Push(3);
+	q.Push(4);
+	q.Push(5);
+	q.Pop();
+	ASSERT_ANY_THROW(q[4]);
+}
+
+TEST(TQueue, can_return_element)
+{
+	TQueue<int> q(5);
+	q.Push(1);
+	ASSERT_NO_THROW(q[0]);
+}
