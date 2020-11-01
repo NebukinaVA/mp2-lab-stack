@@ -6,18 +6,20 @@
 
 using namespace std;
 
-// ОЧЕРЕДЬ
+// РћР§Р•Р Р•Р”Р¬
 template <class ValType>
-class TQueue :public TStack<ValType>
+class TQueue : public TStack<ValType>
 {
 	TStack<ValType> In, Out;
+	int InBot;       //РёРЅРґРµРєСЃ РЅРёР¶РЅРµРіРѕ СЌР»РµРјРµРЅС‚Р° СЃС‚РµРєР° In
 public:
 	TQueue(int s = 6);
 	~TQueue();
-	void Pop();                         // убрать элемент
-	void Push(ValType elem);            // добавить элемент 
-	bool operator==(const TQueue &q);   // сравнение
-	bool operator!=(const TQueue &q);   // сравнение
+	void Pop();                         // СѓР±СЂР°С‚СЊ СЌР»РµРјРµРЅС‚
+	void Push(ValType elem);            // РґРѕР±Р°РІРёС‚СЊ СЌР»РµРјРµРЅС‚ 
+	bool operator==(const TQueue &q);   // СЃСЂР°РІРЅРµРЅРёРµ
+	bool operator!=(const TQueue &q);   // СЃСЂР°РІРЅРµРЅРёРµ
+	ValType operator[](int pos);
 };
 
 template <class ValType>
@@ -26,6 +28,7 @@ TQueue<ValType>::TQueue(int s)
 	TStack <ValType> temp(s);
 	In = temp;
 	Out = temp;
+	InBot = 0;
 }
 
 template <class ValType>
@@ -36,23 +39,24 @@ TQueue<ValType>::~TQueue()
 template <class ValType>
 void TQueue<ValType>::Pop()
 {
-	if (!In.IsEmpty())
+	if (Out.IsEmpty())
+	{
 		Out = In.LoadStack();
+		Out.ChangeTopElem(-InBot);
+	}
 	Out.Pop();
-	In.Clear();
+	InBot++;
 }
 
 template <class ValType>
 void TQueue<ValType>::Push(ValType elem)
 {
-	if (!Out.IsEmpty())
-		In = Out.LoadStack();
 	In.Push(elem);
 	Out.Clear();
 }
 
 template <class ValType>
-bool TQueue<ValType>::operator==(const TQueue &q) //сравнение
+bool TQueue<ValType>::operator==(const TQueue &q) //СЃСЂР°РІРЅРµРЅРёРµ
 {
 	if ((!q.In.IsEmpty()) && (!In.IsEmpty()))
 		if (In == q.In) return true;
@@ -62,10 +66,18 @@ bool TQueue<ValType>::operator==(const TQueue &q) //сравнение
 }
 
 template <class ValType>
-bool TQueue<ValType>::operator!=(const TQueue &q) //сравнение
+bool TQueue<ValType>::operator!=(const TQueue &q) //СЃСЂР°РІРЅРµРЅРёРµ
 {
 	if (q == *this) return false;
 	return true;
 }
+
+template <class ValType>
+ValType TQueue<ValType>::operator[](int pos)
+{
+	if (Out.IsEmpty()) return In[pos + InBot];
+	return Out[pos];
+}
+
 
 #endif

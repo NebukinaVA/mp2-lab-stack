@@ -29,15 +29,6 @@ TEST(TStack, can_push)
 	ASSERT_NO_THROW(s.Push(1));
 }
 
-TEST(TStack, throws_when_push_into_full_stack)
-{
-	TStack<int> s(3);
-	s.Push(1);
-	s.Push(2);
-	s.Push(3);
-	ASSERT_ANY_THROW(s.Push(4));
-}
-
 TEST(TStack, can_pop)
 {
 	TStack<int> s;
@@ -116,3 +107,11 @@ TEST(TStack, can_load_stack)
 	EXPECT_EQ(s1, s2);
 }
 
+TEST(TStack, can_repack_stack)
+{
+	TStack<int> s(3);
+	s.Push(1);
+	s.Push(2);
+	s.Push(3);
+	ASSERT_NO_THROW(s.Push(4));
+}

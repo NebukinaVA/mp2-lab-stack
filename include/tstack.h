@@ -25,9 +25,12 @@ public:
 	void Clear();              // очистить стек
 	void Push(ValType elem);   // добавить элемент в стек
 	void Pop();                // удалить элемент из стека
+	void Repack();             // перепаковка 
 	TStack LoadStack();        // перенос элементов
 	bool operator==(const TStack &s) const;
 	bool operator!=(const TStack &s) const;
+	ValType operator[](int pos);
+	void ChangeTopElem(int n);
 };
 
 template <class ValType>
@@ -58,14 +61,14 @@ TStack<ValType>::~TStack()
 template <class ValType>
 TStack<ValType>& TStack<ValType>::operator=(const TStack &s) //присваивание 
 {
-	if ((Size != s.Size) || (TopElem != s.TopElem))
+	if (Size != s.Size)
 	{
-		TopElem = s.TopElem;
 		Size = s.Size;
 		delete[] pStack;
 		pStack = new ValType[Size];
 	}
-	for (int i = 0; i <= TopElem; i++)
+	TopElem = s.TopElem;
+	for (int i = 0; i <= s.TopElem; i++)
 		pStack[i] = s.pStack[i];
 	return *this;
 }
@@ -116,7 +119,7 @@ void TStack<ValType>::Clear() // очистить стек
 template <class ValType> // добавить элемент в стек
 void TStack<ValType>::Push(ValType elem)
 {
-	if (IsFull()) throw "Error";
+	if (IsFull()) Repack();
 	TopElem = TopElem + 1;
 	pStack[TopElem] = elem;
 }
@@ -125,10 +128,21 @@ template <class ValType> // удалить элемент из стека
 void TStack<ValType>::Pop()
 {
 	if (IsEmpty()) throw "Error";
-	pStack[TopElem] = '\0';
 	TopElem = TopElem - 1;
 }
 
+template <class ValType> // перепаковать стек
+void TStack<ValType>::Repack()
+{
+	ValType *ptemp;
+	ptemp = new ValType[Size + 20];
+	for (int i = 0; i < Size; i++)
+		ptemp[i] = pStack[i];
+	TopElem = Size - 1;
+	Size = Size + 20;
+	delete[] pStack;
+	pStack = ptemp;
+}
 
 template <class ValType>
 TStack<ValType> TStack<ValType>::LoadStack()  // перенос элементов
@@ -140,5 +154,17 @@ TStack<ValType> TStack<ValType>::LoadStack()  // перенос элементо
 	return temp;
 }
 
+template <class ValType>
+ValType TStack<ValType>::operator[](int pos)
+{
+	if ((pos < 0) || (pos > TopElem)) throw "error";
+	return pStack[pos];
+}
+
+template <class ValType>
+void TStack<ValType>::ChangeTopElem(int n)
+{
+	TopElem = TopElem + n;
+}
 
 #endif
