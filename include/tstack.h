@@ -29,6 +29,9 @@ public:
 	TStack LoadStack();        // перенос элементов
 	bool operator==(const TStack &s) const;
 	bool operator!=(const TStack &s) const;
+	ValType operator[](int pos);
+	void ChangeTopElem(int n);
+	ValType GetTop();
 };
 
 template <class ValType>
@@ -152,5 +155,23 @@ TStack<ValType> TStack<ValType>::LoadStack()  // перенос элементо
 	return temp;
 }
 
+template <class ValType>
+ValType TStack<ValType>::operator[](int pos)
+{
+	if ((pos < 0) || (pos > TopElem)) throw "error";
+	return pStack[pos];
+}
+
+template <class ValType>
+void TStack<ValType>::ChangeTopElem(int n)
+{
+	TopElem = TopElem + n;
+}
+
+template <class ValType>
+ValType TStack<ValType>::GetTop()
+{
+	return pStack[TopElem];
+}
 
 #endif
