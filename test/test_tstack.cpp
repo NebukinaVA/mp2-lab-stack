@@ -28,7 +28,6 @@ TEST(TStack, can_push)
 	TStack<int> s;
 	ASSERT_NO_THROW(s.Push(1));
 }
-
 TEST(TStack, can_pop)
 {
 	TStack<int> s;
