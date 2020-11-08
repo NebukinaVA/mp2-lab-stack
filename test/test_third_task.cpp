@@ -2,7 +2,7 @@
 
 #include <gtest.h>
 
-TEST(Minumim, can_create_stack)
+TEST(Minimum, can_create_stack)
 {
 	ASSERT_NO_THROW(StackWithMinimum<int> s);
 }
