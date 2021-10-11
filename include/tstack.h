@@ -31,6 +31,7 @@ public:
 	bool operator!=(const TStack &s) const;
 	ValType operator[](int pos);
 	void ChangeTopElem(int n);
+	ValType GetTop();
 };
 
 template <class ValType>
@@ -165,6 +166,12 @@ template <class ValType>
 void TStack<ValType>::ChangeTopElem(int n)
 {
 	TopElem = TopElem + n;
+}
+
+template <class ValType>
+ValType TStack<ValType>::GetTop()
+{
+	return pStack[TopElem];
 }
 
 #endif
